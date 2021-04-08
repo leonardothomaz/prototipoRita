@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.personal.assistant.rita.R;
+import com.personal.assistant.rita.cadastrarRemedio;
+import com.personal.assistant.rita.cadastro;
 import com.personal.assistant.rita.ui.login.LoginViewModel;
 import com.personal.assistant.rita.ui.login.LoginViewModelFactory;
 
@@ -40,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
+        final Button registerButton = findViewById(R.id.registerButton);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -115,6 +119,15 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+
+                switchToCadastrarRemedio();
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToCadastro();
             }
         });
     }
@@ -127,5 +140,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    private void switchToCadastro() {
+        Intent switchActivityIntent = new Intent(this, cadastro.class);
+        startActivity(switchActivityIntent);
+    }
+
+    private void switchToCadastrarRemedio() {
+        Intent switchActivityIntent = new Intent(this, cadastrarRemedio.class);
+        startActivity(switchActivityIntent);
     }
 }
